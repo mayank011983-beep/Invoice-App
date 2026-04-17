@@ -488,10 +488,26 @@
       border-color: rgba(108, 76, 255, 0.18);
     }
 
+    .print-only {
+      display: none;
+    }
+
     @media print {
       .discount-field,
-      .summary-line.discount {
+      #subtotal {
         display: none !important;
+      }
+
+      #printSubtotal {
+        display: inline !important;
+      }
+
+      .summary-line.subtotal strong::after {
+        content: ' (after discount)';
+        font-weight: 400;
+        font-size: 0.92rem;
+        color: rgba(26, 34, 29, 0.75);
+        margin-left: 6px;
       }
     }
 
@@ -796,9 +812,10 @@
             </div>
 
             <div class="summary-grid">
-              <div class="summary-line">
+              <div class="summary-line subtotal">
                 <strong>Subtotal</strong>
                 <span id="subtotal">$0.00</span>
+                <span id="printSubtotal" class="print-only">$0.00</span>
               </div>
               <div class="summary-line discount">
                 <strong>Discount</strong>
@@ -864,6 +881,7 @@
       const addItemBtn = document.getElementById('addItemBtn');
       const discountInput = document.getElementById('discount');
       const subtotalEl = document.getElementById('subtotal');
+      const printSubtotalEl = document.getElementById('printSubtotal');
       const discountDisplayEl = document.getElementById('discountDisplay');
       const taxEl = document.getElementById('tax');
       const grandTotalEl = document.getElementById('grandTotal');
@@ -935,7 +953,10 @@
         const tax = Math.max(0, subtotal - discount) * 0.08;
         const total = Math.max(0, subtotal - discount) + tax;
 
+        const netSubtotal = Math.max(0, subtotal - discount);
+
         subtotalEl.textContent = money.format(subtotal);
+        printSubtotalEl.textContent = money.format(netSubtotal);
         discountDisplayEl.textContent = `-${money.format(discount)}`;
         taxEl.textContent = money.format(tax);
         grandTotalEl.textContent = money.format(total);
