@@ -112,6 +112,9 @@
     }
 
     .tier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
       padding: 14px 20px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.24);
@@ -122,6 +125,22 @@
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       white-space: nowrap;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .tier-pill:hover,
+    .tier-pill:focus-within {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 40px rgba(18, 24, 23, 0.16);
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .tier-pill-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.72rem;
+      color: rgba(28, 38, 32, 0.58);
+      font-weight: 800;
     }
 
     .detail-cards {
@@ -235,6 +254,17 @@
         calc(100% - 16px) 50%;
       background-size: 6px 6px, 6px 6px;
       background-repeat: no-repeat;
+      transition: color 0.2s ease, letter-spacing 0.2s ease;
+    }
+
+    .tier-select:focus {
+      color: #111111;
+      letter-spacing: 0.02em;
+    }
+
+    .tier-select option {
+      color: #111111;
+      background: #ffffff;
     }
 
     .meta-item {
@@ -743,13 +773,22 @@
               <h1 class="invoice-title">BUILD SERVICES INVOICE</h1>
               <p class="invoice-subtitle">Premium invoice workspace for custom Minecraft structures, terrain shaping, and managed studio delivery.</p>
             </div>
-            <div class="tier-pill">Active Tier: <strong>ELYSIUM</strong></div>
+            <div class="tier-pill">
+              <span class="tier-pill-label">Active Tier</span>
+              <select id="activeTier" class="badge tier-select" aria-label="Active Tier">
+                <option>FREE_TRIAL</option>
+                <option>BASIC</option>
+                <option>PREMIUM</option>
+                <option>ULTIMATE</option>
+                <option selected>ELYSIAN</option>
+              </select>
+            </div>
           </div>
 
           <div class="detail-cards">
             <div class="detail-card">
               <span class="card-label">Minecraft Version</span>
-              <strong class="card-value">Minecraft v1.21</strong>
+              <input id="minecraftVersion" type="text" class="card-input" value="1.21.1" placeholder="1.21.1" />
             </div>
             <div class="detail-card">
               <span class="card-label">Customer Name</span>
@@ -822,7 +861,7 @@
                 <span id="discountDisplay">-$0.00</span>
               </div>
               <div class="summary-line">
-                <strong>Tax (8%)</strong>
+                <strong>Service Charge</strong>
                 <span id="tax">$0.00</span>
               </div>
               <div class="summary-line total">
